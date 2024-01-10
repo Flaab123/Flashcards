@@ -45,10 +45,7 @@ class LogStream:
         for line in self.lines:
             export_file.write(line)
         export_file.close()
-
-
 log_stream = LogStream()
-
 
 def check_input(user_input, type):
     """Checks if the user input already exists as a term or definition"""
@@ -69,7 +66,6 @@ def check_input(user_input, type):
         else:
             return True
 
-
 def input_term_def(type):
     """Prompts user to input a term and definition for a card until a unique input is given"""
     check = False
@@ -77,7 +73,6 @@ def input_term_def(type):
         user_input = log_stream.In()
         check = check_input(user_input, type)
     return user_input
-
 
 def ask_answer(card_number):
     """Prompts user for an answer for the given card"""
@@ -100,7 +95,6 @@ def ask_answer(card_number):
     if wrong_answer:
         log_stream.Out(f'Wrong. The right answer is "{correct_answer}".')
 
-
 def user_add():
     log_stream.Out("The card:")
     term = input_term_def('term')
@@ -108,7 +102,6 @@ def user_add():
     definition = input_term_def('definition')
     log_stream.Out(f'The pair ("{term}":"{definition}") has been added.')
     Flashcards(term, definition)
-
 
 def user_import():
     log_stream.Out("File name:")
@@ -131,7 +124,6 @@ def user_import():
         cards_added = len(imported_terms)
         log_stream.Out(f'{cards_added} cards have been loaded.')
 
-
 def user_export():
     log_stream.Out("File name:")
     file_name = log_stream.In()
@@ -143,7 +135,6 @@ def user_export():
     export_file.close()
     amount_of_cards = len(Flashcards.all_flashcards)
     log_stream.Out(f'{amount_of_cards} cards have been saved.')
-
 
 def user_remove():
     log_stream.Out("Which card?")
@@ -158,7 +149,6 @@ def user_remove():
     if not removed_a_card:
         log_stream.Out(f'Can\'t remove "{to_remove}": there is no such card.')
 
-
 def user_ask():
     log_stream.Out("How many times to ask?")
     ask_number = int(log_stream.In())
@@ -167,11 +157,9 @@ def user_ask():
         card_pick = random.randint(0, amount_of_cards - 1)
         ask_answer(card_pick)
 
-
 def user_exit():
     log_stream.Out("Bye bye!")
     return "Exit procedure"
-
 
 def hardest_card():
     card_mistakes = [card.mistakes for card in Flashcards.all_flashcards]
@@ -189,12 +177,10 @@ def hardest_card():
             terms_joined = ", ".join(terms)
             log_stream.Out(f'The hardest cards are {terms_joined}. You have {max_mistakes} errors answering them.')
 
-
 def reset_stats():
     for i, _ in enumerate(Flashcards.all_flashcards):
         Flashcards.all_flashcards[i].mistakes = 0
     log_stream.Out("Card statistics have been reset.")
-
 
 if import_from:
     if not os.path.isfile(import_from):
@@ -214,9 +200,6 @@ if import_from:
             Flashcards(imported_terms[i], imported_definitions[i], int(imported_mistakes[i]))
         cards_added = len(imported_terms)
         log_stream.Out(f'{cards_added} cards have been loaded.')
-
-
-
 
 check_exit = ''
 while check_exit != "Exit procedure":
